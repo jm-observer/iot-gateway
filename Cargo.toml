@@ -1,10 +1,8 @@
-[package]
-name = "iot_gateway"
-version = "0.1.1"
-authors = ["362254883@qq.com <jmhuang123>"]
-edition = "2018"
+[workspace]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+members = ["gateway", "gateway-common", "gateway-derive"]
+
+exclude = ["config", "tests"]
 
 [profile.release]
 #https://nnethercote.github.io/perf-book/build-configuration.html
@@ -12,71 +10,3 @@ lto = true
 codegen-units = 1
 #[build]
 #rustflags = ["-C", "link-arg=-fuse-ld=lld"]
-[features]
-# no features by default
-default = ["prod", "biz"]
-prod = []
-dev = []
-biz = []
-support = []
-
-
-
-[dependencies]
-
-#dotenv = "0.15.0"
-
-#巨难用
-#json = "0.12.4"
-async-std = {features = ["attributes", "tokio1"], version = "1.9.0"}
-rumqttc = "0.10.0"
-log4rs = "1.0.0"
-log = "0.4.0"
-chrono = "0.4.19"
-hmac-sha1 = "0.1.3"
-urlencoding = "1.1.1"
-sha1 = {features = ["std"], version = "0.6.0"}
-hex = "0.4.2"
-md5 = "0.7.0"
-base64 = "0.13.0"
-mac_address = "1.1.1"
-regex = "1.4.3"
-bytes = "1.0.1"
-futures = "0.3.12"
-async-trait = "0.1.42"
-uuid = { version = "0.8.2", features = ["v4"] }
-futures-util = "0.3.12"
-num-traits = "0.2.14"
-json_minimal = "0.1.3"
-#openssl = { version = "0.10.32"}
-mio_httpc = { version = "0.8", features = ["rtls"] }
-#不支持http
-#surf = { version ="2.2.0", features = ["h1-client"] }
-#同步，rtls
-#ureq = "2.0.2"
-rand = "0.8.3"
-roxmltree = "0.14.0"
-toml_edit = "0.2.0"
-#error-chain = "0.12.4"
-heim = { version="0.1.0-rc.1", features=["cpu", "memory", "disk", ]}
-mio-serial = "3.3.1"
-mio = "^0.6"
-serialport = "3.3.0"
-clap = "2.32"
-backtrace = "0.3.3"
-iot_gateway_derive = {path="iot_gateway_derive"}
-[dev-dependencies]
-async-io = "1.3.1"
-futures-lite = "1.11.0"
-async-channel = "1.4.2"
-ssh2 = "0.9.1"
-sha1 = {features = ["std"], version = "0.6.0"}
-#不支持http
-#surf = { version ="2.3.2", features = ["h1-client"] }
-
-time = "0.1.44"
-serde_json = "1.0.67"
-[target.'cfg(unix)'.dependencies]
-daemonize = "0.4.1"
-libsystemd = "0.2.1"
-
