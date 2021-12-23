@@ -1,0 +1,78 @@
+refresh_rate: 30 seconds
+appenders:
+  stdout:
+    kind: console
+    encoder:
+      pattern: "{d(%m-%d %H:%M:%S)} - {I}-{l} {M}:{L} {m}{n}"
+  requests:
+    kind: rolling_file
+    path: "/home/pi/iot/log/requests.log"
+    append: true
+    encoder:
+      pattern: "{d(%m-%d %H:%M:%S)} - {I}-{l} {M}:{L} {m}{n}"
+    policy:
+      kind: compound
+      trigger:
+        kind: size
+        limit: 1 mb
+      roller:
+        kind: fixed_window
+        pattern: '/home/pi/iot/log/requests.log.{}'
+        base: 1
+        count: 5
+  requests-warn:
+    kind: rolling_file
+    path: "/home/pi/iot/log/warn_requests.log"
+    append: true
+    encoder:
+      pattern: "{d(%m-%d %H:%M:%S)} - {I}-{l} {M}:{L} {m}{n}"
+    policy:
+      kind: compound
+      trigger:
+        kind: size
+        limit: 1 mb
+      roller:
+        kind: fixed_window
+        pattern: '/home/pi/iot/log/warn_requests.log.{}'
+        base: 1
+        count: 5
+  requests-mqtt:
+    kind: rolling_file
+    path: "/home/pi/iot/log/mqtt.log"
+    append: true
+    encoder:
+      pattern: "{d(%m-%d %H:%M:%S)} - {I}-{l} {M}:{L} {m}{n}"
+    policy:
+      kind: compound
+      trigger:
+        kind: size
+        limit: 1 mb
+      roller:
+        kind: fixed_window
+        pattern: '/home/pi/iot/log/mqtt.log.{}'
+        base: 1
+        count: 5
+root:
+  level: debug
+  appenders:
+    - stdout
+    - requests
+loggers:
+  rumqttc::state:
+    level: warn
+  iot_gateway::mqtt:
+    level: debug
+    appenders:
+      - requests-mqtt
+  rustls::client:
+    level: warn
+    appenders:
+      - requests-warn
+    additive: true
+#无法实现warn出现在2个级别的日志文件中
+#loggers:
+#  iot_gateway:
+#    level: warn
+#    appenders:
+#      - requests-warn
+#    additive: true

@@ -1,0 +1,78 @@
+[os]
+cpu = 0.8
+disk = 0.85
+memory = 0.85
+swap = 0.85
+
+[server]
+# 待维护
+# 移至dotenv
+rtmp = "www.duduwuli.cn:1935/live/"
+screen_on = "06:30"
+screen_off = "23:00"
+screen = "off"
+
+
+[server.path]
+req_ipc_images = "/home/pi/iot/images/"
+
+[eleCollect]
+status = "off"
+#inter = "ttl"
+inter = "usb1"
+frequency = 5
+no="eleCollect1111111111"
+
+[envCollect]
+status = "off"
+inter = "usb0"
+frequency = 5
+no="envCollect1111111111"
+
+#[sim]
+#status = "on"
+
+[cos]
+# 移至dotenv
+secret_id = "AKIDWpssFi32uW3VqvqC3XI1qJmzuYfiBrZ2"
+secret_key = "MfhY8VcU7UCH6dz4tUpjirfYOpEPJapn"
+bucket = "middle-test-1300019243"
+region = "ap-chengdu"
+scheme = "https"
+
+offlineFileNum = 6000
+
+[cos-ext]
+images = "images"
+
+[mqtt]
+# 移至dotenv
+user = "netgate"
+password = "jio83hc739duyeh2"
+server = "mqtt.duduwuli.cn"
+id = "_rustc"
+port = 1883
+
+[onvif.auth]
+name = ["admin"]
+#""需要放在最前面
+password = ["","admin","admin123"]
+
+[onvif.ipc]
+
+[onvif.ipc.1df2e14e-1dd2-11b2-8323-88e628a77f5d]
+name = "admin"
+password = ""
+manufacturer = "EYEPLUS"
+stream_url = ":554"
+width = "1920"
+height = "1080"
+
+[onvif.ipc.04570f61-7bff-411a-87f6-9a4b557868c8]
+name = "admin"
+password = "admin"
+manufacturer = "Dahua"
+stream_url = ":554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif"
+width = "1280"
+height = "720"
+

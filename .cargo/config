@@ -1,0 +1,30 @@
+#[target.armv7-unknown-linux-gnueabihf]
+#linker = "D:/TMP-APP/arm-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc.exe"
+#linker = "D:/TMP-APP/arm-linux-gnueabihf/bin/arm-linux-gnueabihf-c++.exe"
+
+[target.armv7-unknown-linux-gnueabihf]
+linker = "/usr/bin/arm-linux-gnueabihf-gcc"
+[target.aarch64-unknown-linux-gnu]
+linker = "/usr/bin/aarch64-linux-gnu-gcc"
+
+#ffmpeg-sys-next 有bug临时调整
+#[target.x86_64-pc-windows-msvc]
+##rustflags = ["-C", "link-arg=/STACK:    "]
+##ffmpeg
+#rustflags = ["-C", "link-arg=Mfplat.lib", "-C", "link-arg=Strmiids.lib"
+#    ,"-C", "link-arg=Mfuuid.lib", "-C", "link-arg=Bcrypt.lib"
+#    ,"-C" , "link-arg=Secur32.lib"
+#    ,"-C" , "link-arg=Ole32.lib"
+#    ,"-C" , "link-arg=Vfw32.lib","-C" , "link-arg=Shlwapi.lib","-C" , "link-arg=wsock32.lib"
+#    ,"-C" , "link-arg=postproc.lib"
+#    ,"-C" , "link-arg=avresample.lib"
+#    ,"-C" , "link-arg=User32.lib"
+#    ,"-C" , "link-arg=OleAut32.lib"
+##    ,"-C" , "link-arg=Gdi3211.lib"
+#    ,"-C", "link-args=/NODEFAULTLIB:libcmt.lib"
+#    ,"-L", "native=D:/git/vcpkg/packages/ffmpeg_x64-windows-static/lib"
+#]
+
+#rustflags = ["-C", "-Wl,--exclude-libs,libc.a"]
+
+#linker = "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2020-q4-major/bin/arm-none-eabi-gcc.exe"
