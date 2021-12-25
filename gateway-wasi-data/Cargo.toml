@@ -1,0 +1,9 @@
+[package]
+name = "gateway-wasi-data"
+version = "0.1.0"
+edition = "2021"
+description = "定义用于wasi的输入输出类型"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

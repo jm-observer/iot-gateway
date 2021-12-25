@@ -77,6 +77,7 @@ pub async fn nodemcu_task(global: Arc<Global>) -> Result<()> {
 use std::marker::PhantomData;
 use std::pin::Pin;
 use std::sync::Once;
+use std::thread::sleep;
 
 const START: Once = Once::new();
 static mut OFFLINE: Option<Duration> = None;

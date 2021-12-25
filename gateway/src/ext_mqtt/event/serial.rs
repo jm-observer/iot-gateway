@@ -1,5 +1,4 @@
 //! Simple example that echoes received serial traffic to stdout
-use crate::pub_use::*;
 use crate::*;
 use std::str;
 #[cfg(target_family = "unix")]

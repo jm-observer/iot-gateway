@@ -1,0 +1,9 @@
+[package]
+name = "wasis"
+version = "0.1.0"
+edition = "2021"
+description = "定义用于解析数据的wasi"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

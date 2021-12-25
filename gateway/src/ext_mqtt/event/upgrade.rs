@@ -1,4 +1,3 @@
-use crate::pub_use::*;
 use crate::*;
 use async_trait::async_trait;
 use gateway_common::{deal_file, get_image, Action, ExtObject, Global, MqttPacket};
@@ -67,8 +66,8 @@ impl Action for Upgrade {
             .arg("iotgateway")
             .status()
         {
-            error!("{:?}", com);
-            return bail!(com.to_string());
+            // error!("{:?}", com);
+            bail!(com.to_string());
         }
         return Ok(());
     }

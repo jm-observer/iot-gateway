@@ -1,0 +1,19 @@
+module:
+  - name: "self-client"
+    ty: "mqtt"
+    config:
+      user: "netgate"
+      password: "jio83hc739duyeh2"
+      addr: "mqtt.duduwuli.cn"
+      id: "_rustc"
+      port: 1883
+  - name: "self-client-01"
+    ty: "mqtt"
+    config:
+      user: "netgate"
+      password: "jio83hc739duyeh2"
+      addr: "mqtt.duduwuli.cn"
+      id: "_rustc"
+      port: 1883
+  - ty: "daemon"
+    config:

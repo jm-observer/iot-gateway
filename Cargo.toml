@@ -1,6 +1,6 @@
 [workspace]
 
-members = ["gateway", "gateway-common", "gateway-derive"]
+members = ["gateway", "gateway-common", "gateway-derive", "gateway-wasi", "gateway-wasi-data", "gateway-module"]
 
 exclude = ["config", "tests"]
 

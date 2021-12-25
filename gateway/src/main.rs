@@ -1,4 +1,5 @@
-// extern crate iot_gateway;
+#![allow(unused)]
+
 use crate::pub_use::*;
 use std::panic;
 use std::time::Duration;
@@ -8,7 +9,7 @@ pub use async_std::sync::Arc;
 pub use async_std::sync::Mutex;
 pub use async_std::task;
 pub use async_trait::async_trait;
-use futures::future::join4;
+use futures::future::join3;
 pub use futures::{future::join, pin_mut, select, FutureExt};
 pub use json_minimal::Json;
 
@@ -22,6 +23,7 @@ pub use gateway_common::*;
 pub use mqtt::*;
 pub use sub_task::*;
 
+mod core;
 mod ext;
 mod ext_mqtt;
 mod ffmpeg;
@@ -55,11 +57,7 @@ async fn main_detail() -> Result<()> {
     let config = init_config()?;
     // 守护进程
     let config_clone = config.clone();
-    let handler = task::spawn(async move {
-        if let Err(e) = daemon().await {
-            error!("{:?}", e);
-        }
-    });
+
     // ipc的onvif扫描任务
     let time = 60 * 30;
     let onvif_discovery = task::spawn(async move {
@@ -133,6 +131,6 @@ async fn main_detail() -> Result<()> {
     let screen_config = config.clone();
     task::spawn(async move { screen_control(screen_config).await });
 
-    join4(onvif_discovery, handler, mqtt, ffmpeg).await;
+    join3(onvif_discovery, mqtt, ffmpeg).await;
     Ok(())
 }
