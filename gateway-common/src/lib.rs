@@ -11,7 +11,7 @@ pub use ext_json::*;
 pub use ext_json::*;
 pub use global::*;
 pub use packet::*;
-pub use serial::*;
+// pub use serial::*;
 pub use ssh::*;
 pub use toml_config::*;
 
@@ -22,7 +22,7 @@ mod ext_json;
 pub mod global;
 mod packet;
 mod pub_use;
-mod serial;
+// mod serial;
 mod ssh;
 mod toml_config;
 use pub_use::*;

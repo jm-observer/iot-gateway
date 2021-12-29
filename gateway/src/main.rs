@@ -19,7 +19,7 @@ pub use crate::ffmpeg::*;
 use anyhow::Result;
 pub use ext::*;
 pub use ext_mqtt::*;
-pub use gateway_common::*;
+// pub use gateway_common::*;
 pub use mqtt::*;
 pub use sub_task::*;
 
@@ -118,12 +118,12 @@ async fn main_detail() -> Result<()> {
             error!("{:?}", e);
         }
     });
-    // 电流采集
-    let ele_config = config.clone();
-    task::spawn(async move { ele_collect_task(ele_config).await });
-    // 环境信息采集
-    let env_config = config.clone();
-    task::spawn(async move { env_collect_task(env_config).await });
+    // // 电流采集
+    // let ele_config = config.clone();
+    // task::spawn(async move { ele_collect_task(ele_config).await });
+    // // 环境信息采集
+    // let env_config = config.clone();
+    // task::spawn(async move { env_collect_task(env_config).await });
     // 配置参数同步
     let config_toml = config.clone();
     task::spawn(async move { update_config_task(config_toml).await });

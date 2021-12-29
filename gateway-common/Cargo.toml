@@ -12,40 +12,40 @@ dev = []
 biz = []
 support = []
 [dependencies]
-async-std = {features = ["attributes", "tokio1"], version = "1.10.0"}
-rumqttc = "0.10.0"
-log = "0.4.0"
-chrono = "0.4.19"
-hmac-sha1 = "0.1.3"
-urlencoding = "1.1.1"
-sha1 = {features = ["std"], version = "0.6.0"}
-hex = "0.4.2"
-md5 = "0.7.0"
-base64 = "0.13.0"
-mac_address = "1.1.1"
-regex = "1.4.3"
-bytes = "1.0.1"
-futures = "0.3.12"
-uuid = { version = "0.8.2", features = ["v4"] }
-futures-util = "0.3.12"
-num-traits = "0.2.14"
-json_minimal = "0.1.3"
-#openssl = { version = "0.10.32"}
-mio_httpc = { version = "0.9.5", features = ["rtls"] }
-#不支持http
-#surf = { version ="2.2.0", features = ["h1-client"] }
-#同步，rtls
-#ureq = "2.0.2"
-rand = "0.8.3"
-roxmltree = "0.14.0"
-toml_edit = "0.2.0"
-#error-chain = "0.12.4"
-heim = { version="0.1.0-rc.1", features=["cpu", "memory", "disk", ]}
-mio-serial = "3.3.1"
-mio = "^0.6"
-serialport = "3.3.0"
-clap = "2.32"
-backtrace = "0.3.3"
-gateway-derive = { path = "../gateway-derive"}
-async-trait = "0.1.52"
-anyhow = "1.0.51"
+#async-std = {features = ["attributes", "tokio1"], version = "1.10.0"}
+#rumqttc = "0.10.0"
+#log = "0.4.0"
+#chrono = "0.4.19"
+#hmac-sha1 = "0.1.3"
+#urlencoding = "1.1.1"
+#sha1 = {features = ["std"], version = "0.6.0"}
+#hex = "0.4.2"
+#md5 = "0.7.0"
+#base64 = "0.13.0"
+#mac_address = "1.1.1"
+#regex = "1.4.3"
+#bytes = "1.0.1"
+#futures = "0.3.12"
+#uuid = { version = "0.8.2", features = ["v4"] }
+#futures-util = "0.3.12"
+#num-traits = "0.2.14"
+#json_minimal = "0.1.3"
+##openssl = { version = "0.10.32"}
+#mio_httpc = { version = "0.9.5", features = ["rtls"] }
+##不支持http
+##surf = { version ="2.2.0", features = ["h1-client"] }
+##同步，rtls
+##ureq = "2.0.2"
+#rand = "0.8.3"
+#roxmltree = "0.14.0"
+#toml_edit = "0.2.0"
+##error-chain = "0.12.4"
+#heim = { version="0.1.0-rc.1", features=["cpu", "memory", "disk", ]}
+#mio-serial = "5.0.1"
+#mio = { version = "^0.8", features = ["os-poll"] }
+#serialport = "3.3.0"
+#clap = "2.32"
+#backtrace = "0.3.3"
+#gateway-derive = { path = "../gateway-derive"}
+#async-trait = "0.1.52"
+#anyhow = "1.0.51"

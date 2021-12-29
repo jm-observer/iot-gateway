@@ -1,7 +1,7 @@
 use crate::pub_use::*;
 use crate::*;
-use mio::{Poll, PollOpt, Ready, Token};
-use mio_serial::Serial;
+use mio::{event::Source, Interest, Poll, Token};
+use mio_serial::{SerialPortBuilderExt, SerialStream};
 
 pub struct MSerial {
     interface: String,
@@ -31,7 +31,7 @@ async fn start(mut interface: String, core: Sender<ModuleCommand>, recv: Receive
         }
     }
 }
-fn init(interface: &str, core: Sender<ModuleCommand>) -> (Option<Serial>, Option<Poll>) {
+fn init(interface: &str, core: Sender<ModuleCommand>) -> (Option<SerialStream>, Option<Poll>) {
     match init_detail(interface) {
         Ok((s, p)) => return (Some(s), Some(p)),
         Err(e) => {
@@ -41,33 +41,36 @@ fn init(interface: &str, core: Sender<ModuleCommand>) -> (Option<Serial>, Option
         }
     }
 }
-
-fn init_detail(interface: &str) -> Result<(Serial, Poll)> {
-    let poll = Poll::new()?;
-    let settings = mio_serial::SerialPortSettings::default();
-    let rx = mio_serial::Serial::from_path(interface, &settings)?;
-    poll.register(&rx, SERIAL_TOKEN, ready_of_interest(), PollOpt::edge())?;
+const DEFAULT_BAUD: u32 = 9600;
+fn init_detail(interface: &str) -> Result<(SerialStream, Poll)> {
+    let mut poll = Poll::new()?;
+    let mut rx: mio_serial::SerialStream =
+        mio_serial::new(interface, DEFAULT_BAUD).open_native_async()?;
+    // let mut rx = mio_serial::COMPort::open(&builder)?;
+    poll.registry()
+        .register(&mut rx, SERIAL_TOKEN, Interest::READABLE)
+        .unwrap();
     Ok((rx, poll))
 }
 
 const SERIAL_TOKEN: Token = Token(0);
-
-#[cfg(unix)]
-fn ready_of_interest() -> Ready {
-    Ready::readable() | UnixReady::hup() | UnixReady::error()
-}
-
-#[cfg(windows)]
-fn ready_of_interest() -> Ready {
-    Ready::readable()
-}
-
-#[cfg(unix)]
-fn is_closed(state: Ready) -> bool {
-    state.contains(UnixReady::hup() | UnixReady::error())
-}
-
-#[cfg(windows)]
-fn is_closed(_: Ready) -> bool {
-    false
-}
+//
+// #[cfg(unix)]
+// fn ready_of_interest() -> Ready {
+//     Ready::readable() | UnixReady::hup() | UnixReady::error()
+// }
+//
+// // #[cfg(windows)]
+// // fn ready_of_interest() -> Ready {
+// //     Ready::readable()
+// // }
+//
+// #[cfg(unix)]
+// fn is_closed(state: Ready) -> bool {
+//     state.contains(UnixReady::hup() | UnixReady::error())
+// }
+//
+// #[cfg(windows)]
+// fn is_closed(_: Ready) -> bool {
+//     false
+// }
