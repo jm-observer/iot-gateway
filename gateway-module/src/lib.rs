@@ -4,6 +4,7 @@ mod mconfig;
 mod mdaemon;
 mod mmqtt;
 mod mserial;
+mod mwasi;
 mod mwasmer;
 mod pub_use;
 

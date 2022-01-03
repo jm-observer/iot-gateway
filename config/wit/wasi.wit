@@ -1,0 +1,1 @@
+wasi: function(param: list<u8>) -> expected<list<u8>, list<u8>>

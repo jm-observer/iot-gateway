@@ -5,5 +5,12 @@ edition = "2021"
 description = "定义用于wasi的输入输出类型"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
+wit-bindgen-rust = { git = "https://github.com/bytecodealliance/wit-bindgen" }
+
+
+[dev-dependencies]
+wit-bindgen-rust = { git = "https://github.com/bytecodealliance/wit-bindgen" }

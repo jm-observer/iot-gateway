@@ -17,3 +17,10 @@ module:
       port: 1883
   - ty: "daemon"
     config:
+  - name: "wasi"
+    ty: "wasi"
+    wasis:
+      - name: ""
+        path: ""
+      - name: ""
+        path: ""

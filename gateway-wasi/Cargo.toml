@@ -1,5 +1,5 @@
 [package]
-name = "wasis"
+name = "gateway-wasi"
 version = "0.1.0"
 edition = "2021"
 description = "定义用于解析数据的wasi"
@@ -7,3 +7,11 @@ description = "定义用于解析数据的wasi"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+wit-bindgen-wasmtime = { git = "https://github.com/bytecodealliance/wit-bindgen" }
+wasmtime-wasi = "0.32.0"
+wasmtime = "0.32.0"
+anyhow = "1.0.51"
+log = "0.4.14"
+
+[dev-dependencies]
+wit-bindgen-wasmtime = { git = "https://github.com/bytecodealliance/wit-bindgen" }
