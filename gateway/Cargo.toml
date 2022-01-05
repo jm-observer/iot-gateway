@@ -17,27 +17,29 @@ support = []
 
 [dependencies]
 gateway-derive = {path="../gateway-derive"}
-#gateway-common = {path="../gateway-common"}
-anyhow = "1.0.51"
-async-std = { features = ["attributes", "tokio1"], version = "1.10.0" }
-async-trait = "0.1.52"
-log = "0.4.14"
-chrono = "0.4.19"
-futures = "^0.3"
-futures-util = "^0.3"
-mio_httpc = "0.9.5"
-regex = "1.5.4"
-roxmltree = "0.14.1"
-sha1 = "0.6.0"
-rand = "0.8.4"
-base64 = "0.13.0"
-json_minimal = "0.1.3"
-rumqttc = "0.10.0"
-config = { version = "0.11.0", default-features = false, features = ["yaml"] }
-log4rs = "1.0.0"
+
+anyhow = "*"
+async-std = { features = ["attributes", "tokio1"], version = "*" }
+async-trait = "*"
+log = "*"
+chrono = "*"
+futures = "*"
+futures-util = "*"
+mio_httpc = "*"
+regex = "*"
+roxmltree = "*"
+sha1 = "*"
+rand = "*"
+base64 = "*"
+json_minimal = "*"
+rumqttc = "*"
+config = { version = "*", default-features = false, features = ["yaml"] }
+log4rs = "*"
 heim = { version="0.1.0-rc.1", features=["cpu", "memory", "disk", ]}
-serde = { version = "^1.0", default-features = false, features = ["derive", "std"] }
-#hmac-sha1 = "0.1.3"
+serde = { version = "*", default-features = false, features = ["derive", "std"] }
+
+
+#gateway-common = {path="../gateway-common"}#hmac-sha1 = "0.1.3"
 #urlencoding = "1.1.1"
 #sha1 = {features = ["std"], version = "0.6.0"}
 #hex = "0.4.2"

@@ -17,9 +17,9 @@ futures = "0.3.12"
 mio-serial = "5.0.1"
 mio = { version = "^0.7", features = ["os-poll", "os-ext"] }
 #
-wasmer = "2.1.0"
-wasmer-compiler-cranelift = "2.1.0"
-wasmer-engine-universal = "2.1.0"
-wasmer-wasi = "2.1.0"
+#wasmer = "2.1.0"
+#wasmer-compiler-cranelift = "2.1.0"
+#wasmer-engine-universal = "2.1.0"
+#wasmer-wasi = "2.1.0"
 #
 

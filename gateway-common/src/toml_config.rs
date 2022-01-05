@@ -133,15 +133,16 @@ impl Toml {
         ))
     }
     pub fn remove_ipc_config(&mut self, uuid: &str) -> Result<bool> {
-        if self.config["onvif"]["ipc"][uuid].is_none() {
-            bail!("该uuid不存在，无法删除");
-        }
-        if let Some(root) = self.config["onvif"].as_table_mut() {
-            let servers = root.entry("ipc");
-            if let Some(servers) = servers.as_table_mut() {
-                return Ok(servers.remove(uuid).is_some());
-            }
-        }
+        todo!();
+        // if self.config["onvif"]["ipc"][uuid].is_none() {
+        //     bail!("该uuid不存在，无法删除");
+        // }
+        // if let Some(root) = self.config["onvif"].as_table_mut() {
+        //     let servers = root.entry("ipc");
+        //     if let Some(servers) = servers.as_table_mut() {
+        //         return Ok(servers.remove(uuid).is_some());
+        //     }
+        // }
         Ok(true)
     }
     pub async fn update_ipc_auth(
