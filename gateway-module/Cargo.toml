@@ -16,6 +16,11 @@ serde = { version = "^1.0", default-features = false, features = ["derive", "std
 futures = "0.3.12"
 mio-serial = "5.0.1"
 mio = { version = "^0.7", features = ["os-poll", "os-ext"] }
+
+[dev-dependencies]
+mio-serial = "5.0.1"
+mio = { version = "^0.7", features = ["os-poll", "os-ext"] }
+crc = "2.1"
 #
 #wasmer = "2.1.0"
 #wasmer-compiler-cranelift = "2.1.0"

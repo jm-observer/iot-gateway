@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use async_std::channel::Sender;
 use serde::Deserialize;
 mod mconfig;
