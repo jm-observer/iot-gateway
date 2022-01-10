@@ -1,0 +1,2 @@
+input: function() -> list<u8>
+res: function(param: list<u8>) -> expected<list<u8>, string>

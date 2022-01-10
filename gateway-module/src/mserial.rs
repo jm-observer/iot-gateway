@@ -45,14 +45,7 @@ fn init(interface: &str, core: Sender<ModuleCommand>) -> (Option<SerialStream>, 
     }
 }
 const DEFAULT_BAUD: u32 = 9600;
-fn init_detail(interface: &str) -> Result<(SerialStream, Poll)> {
-    // let mut poll = Poll::new()?;
-    // let mut rx: mio_serial::SerialStream =
-    //     mio_serial::new(interface, DEFAULT_BAUD).open_native_async()?;
-    // // let mut rx = mio_serial::COMPort::open(&builder)?;
-    // poll.registry()
-    //     .register(&mut rx, SERIAL_TOKEN, Interest::WRITABLE)
-    //     .unwrap();
+pub fn init_detail(interface: &str) -> Result<(SerialStream, Poll)> {
     let mut poll = Poll::new()?;
     let mut rx = mio_serial::new(interface, DEFAULT_BAUD).open_native_async()?;
     poll.registry()
@@ -63,9 +56,7 @@ fn init_detail(interface: &str) -> Result<(SerialStream, Poll)> {
 
 const SERIAL_TOKEN: Token = Token(0);
 
-
-const ELE_INPUT: [u8; 8] = [0x01u8, 0x03, 0x00, 0x08, 0x00, 0x04, 0xC5, 0xCB];
-// const ELE_INPUT: [u8; 8] = [0x01u8, 0x03, 0x00, 0x00, 0x00, 0x31, 0x84, 0x1E];
+const ELE_INPUT: [u8; 8] = [0x01u8, 0x03, 0x00, 0x00, 0x00, 0x31, 0x84, 0x1E];
 // 报错 range end index 7 out of range for slice of length 5
 // thread 'mserial::test' panicked at 'range end index 7 out of range for slice of length 5', gateway-module\src\mserial.rs:81:26
 // const ELE_INPUT: [u8; 8] = [0x01u8, 0x03, 0x00, 0x00, 0x00, 0x32, 0xC4, 0x1F];
@@ -92,12 +83,7 @@ pub fn ele_info(interface: &str) -> crate::Result<(f64, f64, f64, f64)> {
     Ok((a, b, c, d))
 }
 
-#[test]
-fn test() {
-    let (a1, a2, a3, a4) = ele_info("COM4").unwrap();
-    println!("{}", a1);
-    println!("{}", a2);
-}
+
 
 
 pub fn get_serial_val(rx: &mut SerialStream, poll: &mut Poll, input: &[u8]) -> crate::Result<Vec<u8>> {
@@ -126,3 +112,24 @@ pub fn get_serial_val(rx: &mut SerialStream, poll: &mut Poll, input: &[u8]) -> c
         }
     }
 }
+
+#[test]
+fn test() -> Result<()>{
+    use crc::{Crc, CRC_16_MODBUS};
+    let X25: Crc<u16> = Crc::<u16>::new(&CRC_16_MODBUS);
+    let mut input = vec![0x01u8, 0x03, 0x00, 0x00, 0x00, 0x31];
+    input.extend_from_slice(change_to_u8(X25.checksum(&input.as_slice())).as_slice());
+    println!("{:?}", input);
+    let (mut rx, mut poll) = init_detail("COM4").unwrap();
+    let res = get_serial_val(&mut rx, &mut poll, &input)?;
+    println!("len={:?}", res.len());
+    Ok(())
+}
+
+
+fn change_to_u8(data: u16) -> [u8; 2] {
+    /// as 直接截断
+    [(data.clone() >> 8) as u8, data as u8]
+}
+
+

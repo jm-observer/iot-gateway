@@ -12,6 +12,7 @@ use crate::pub_use::*;
 use config::Value;
 pub use mconfig::MConfig;
 pub use mdaemon::MDaemon;
+pub use mserial::*;
 
 pub trait Module {
     // 配置初始化
