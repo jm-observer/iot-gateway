@@ -15,4 +15,5 @@ impl serial::Serial for Serial {
 
 
 // get_input: function() -> list<u8>
-// get_res: function(param: list<u8>) -> expected<list<u8>, string>
+// get_res: function(param: list<u8>) -> expected<list<u8>,
+// string>

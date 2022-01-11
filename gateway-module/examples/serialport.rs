@@ -9,8 +9,8 @@ use std::io;
 use std::io::{Read, Write};
 use std::str;
 
-use mio_serial::SerialPortBuilderExt;
 use gateway_module::{get_serial_val, init_detail};
+use mio_serial::SerialPortBuilderExt;
 
 const SERIAL_TOKEN: Token = Token(0);
 
@@ -20,7 +20,7 @@ const DEFAULT_TTY: &str = "COM4";
 const DEFAULT_BAUD: u32 = 9600;
 const ELE_INPUT: [u8; 8] = [0x01u8, 0x03, 0x00, 0x08, 0x00, 0x04, 0xC5, 0xCB];
 pub fn main() -> io::Result<()> {
-
+    std::env::set_var("RUST_LOG", "debug");
     let path = DEFAULT_TTY.to_string();
     println!("Opening {} at 9600,8N1", path);
     // let mut poll = Poll::new()?;
@@ -37,10 +37,9 @@ pub fn main() -> io::Result<()> {
     println!("{:?}", input);
     println!("{:?}", ELE_INPUT);
 
-
     let (mut rx, mut poll) = init_detail(path.as_str()).unwrap();
 
-    let res = get_serial_val(&mut  rx, &mut poll, input.as_slice()).unwrap();
+    let res = get_serial_val(&mut rx, &mut poll, input.as_slice()).unwrap();
     println!("len = {:?} {:?}", res.len(), res[2]);
     Ok(())
     // let mut buf = [0u8; 1024];
@@ -77,5 +76,5 @@ pub fn main() -> io::Result<()> {
 
 fn change_to_u8(data: u16) -> [u8; 2] {
     /// as 直接截断
-    [data.clone()  as u8, (data >> 8) as u8]
+    [data.clone() as u8, (data >> 8) as u8]
 }

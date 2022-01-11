@@ -45,6 +45,7 @@ fn init(interface: &str, core: Sender<ModuleCommand>) -> (Option<SerialStream>, 
     }
 }
 const DEFAULT_BAUD: u32 = 9600;
+const SERIAL_TOKEN: Token = Token(0);
 pub fn init_detail(interface: &str) -> Result<(SerialStream, Poll)> {
     let mut poll = Poll::new()?;
     let mut rx = mio_serial::new(interface, DEFAULT_BAUD).open_native_async()?;
@@ -54,7 +55,7 @@ pub fn init_detail(interface: &str) -> Result<(SerialStream, Poll)> {
     Ok((rx, poll))
 }
 
-const SERIAL_TOKEN: Token = Token(0);
+
 
 const ELE_INPUT: [u8; 8] = [0x01u8, 0x03, 0x00, 0x00, 0x00, 0x31, 0x84, 0x1E];
 // 报错 range end index 7 out of range for slice of length 5
