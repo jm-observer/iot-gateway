@@ -2,7 +2,7 @@ extern crate gateway_linker;
 
 use anyhow::Result;
 use async_channel::{Receiver, Sender};
-use gateway_linker::*;
+use gateway_linker::lib2::*;
 use log::{debug, error, warn};
 use rand::prelude::*;
 use rand::rngs::StdRng;
@@ -26,7 +26,7 @@ async fn core() -> Result<()> {
     let (task_sender, task_recver) = async_channel::bounded(1000);
     let (alloc_sender, alloc_recver) = async_channel::bounded(1000);
     let (free_sender, free_recver) = async_channel::bounded(1000);
-    let mut memory = NodeManage::new();
+    let mut memory = NodeManage::new(500_000)?;
     tokio::time::sleep(Duration::from_millis(500)).await;
     for _ in 0..10 {
         let free_sender_tmp = free_sender.clone();
