@@ -2,7 +2,7 @@ pub mod lib2;
 
 use anyhow::{bail, Result};
 
-const MAX: usize = 10000;
+const MAX: usize = 10;
 // 0作为特殊值，为空的意思。保证0节点不会被释放
 const FIFO_MIN_INDEX: usize = 1;
 ///先入先出
@@ -15,8 +15,7 @@ struct Fifo {
 impl Fifo {
     fn new() -> Self {
         let mut data = [0usize; MAX];
-        let mut tmp = 0usize;
-        for i in 0..=MAX {
+        for i in 0..MAX {
             data[i] = i;
         }
         println!("{} - {}", data[0], data[MAX - 1]);
@@ -28,7 +27,9 @@ impl Fifo {
     }
     pub fn pop(&mut self) -> Result<usize> {
         if self.start != self.end {
-            let position = self.start;
+            let position = self.data[self.start];
+            // 重置为0
+            self.data[self.start] = 0;
             self.start += 1;
             if self.start >= MAX {
                 self.start = FIFO_MIN_INDEX;
@@ -47,6 +48,13 @@ impl Fifo {
             bail!("程序出错");
         } else {
             self.end = position;
+        }
+        Ok(())
+    }
+    pub fn check(&self) -> Result<()> {
+        if self.start < self.end {
+            for _ in [(); self.start] {}
+        } else {
         }
         Ok(())
     }
@@ -137,6 +145,7 @@ impl NodeManage {
         if position == self.index {
             self.index = node.front;
         }
+        self.fifo.push(position)?;
         Ok(())
     }
     pub fn alloc(&mut self, len: usize) -> Result<usize> {
@@ -152,14 +161,15 @@ impl NodeManage {
                     self.memory_size
                 );
             }
-            while let node = self.nodes[self.index].behind {
+            loop {
+                let node = self.nodes[self.index].behind;
                 if node == 0 {
                     bail!("??????????");
                 }
                 start = self.nodes[self.index].alloc_end;
                 end = start + len;
                 if self.nodes[node].alloc_start > end {
-                    let position = self.init_middle_node(node, start, end)?;
+                    self.init_middle_node(node, start, end)?;
                     // 该空间足够
                     return Ok(start);
                 } else {
@@ -188,4 +198,9 @@ impl NodeManage {
         self.index = position;
         Ok(position)
     }
+}
+
+#[test]
+fn test_fifo() {
+    let fifo = Fifo::new();
 }

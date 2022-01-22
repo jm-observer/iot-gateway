@@ -45,7 +45,7 @@ impl NodeManage {
     fn add_start_node(&mut self) -> Result<()> {
         let start = 0usize;
         let inner = NodeInner::new(start, 1, None, None);
-        let mut node = self.init_node(start, inner)?;
+        let node = self.init_node(start, inner)?;
         node.set_front(Some(node));
         self.start = node.clone();
         self.end = node;
