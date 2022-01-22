@@ -19,7 +19,8 @@ async fn main() -> Result<()> {
 }
 
 struct Alloc(usize, u64);
-struct Task(usize, usize, u64);
+/// position, start, end, time
+struct Task(usize, usize, usize, u64);
 struct Free(usize);
 
 async fn core() -> Result<()> {
@@ -41,6 +42,8 @@ async fn core() -> Result<()> {
         debug!("****************** product end **************");
         tokio::time::sleep(Duration::from_secs(100)).await;
     });
+    let mut allo_tmp = 0;
+    let mut time_tmp = 0;
     loop {
         while let Ok(Free(start)) = free_recver.try_recv() {
             debug!("start to free {}", start);
@@ -50,51 +53,46 @@ async fn core() -> Result<()> {
                 debug!("{} freed", start);
             }
         }
-        let mut i = 0;
-        while let Ok(Alloc(len, time)) = alloc_recver.try_recv() {
-            debug!("start to alloc {}", len);
-            match memory.alloc(len) {
+        if allo_tmp > 0 {
+            match memory.alloc(allo_tmp) {
                 Ok(start) => {
-                    if let Err(e) = task_sender.send(Task(start, len, time)).await {
+                    if let Err(e) = task_sender
+                        .send(Task(start.0, start.1, allo_tmp, time_tmp))
+                        .await
+                    {
                         error!("task_sender.send error: {:?}", e);
                     }
+                    allo_tmp = 0;
                 }
                 Err(e) => {
-                    error!("memory.alloc error: {:?}", e);
+                    warn!("memory.alloc error: {:?}", e);
                 }
             }
-            i += 1;
-            if i > 100 {
-                break;
+        } else {
+            let mut i = 0;
+            while let Ok(Alloc(len, time)) = alloc_recver.try_recv() {
+                debug!("start to alloc {}", len);
+                match memory.alloc(len) {
+                    Ok(start) => {
+                        if let Err(e) = task_sender.send(Task(start.0, start.1, len, time)).await {
+                            error!("task_sender.send error: {:?}", e);
+                        }
+                    }
+                    Err(e) => {
+                        warn!("memory.alloc error: {:?}", e);
+                        allo_tmp = len;
+                        time_tmp = time;
+                        break;
+                    }
+                }
+                i += 1;
+                if i > 20 {
+                    break;
+                }
             }
         }
+        memory.check().unwrap();
     }
-
-    // loop {
-    //     select! {
-    //         res = free_recver.recv() => if let Ok(Free(start)) = res {
-    //             debug!("start to free {}", start);
-    //             if let Err(e) = memory.free(start) {
-    //                 error!("memory.free error: {:?}", e);
-    //             } else {
-    //                 debug!("{} freed", start);
-    //             }
-    //         },
-    //         res = alloc_recver.recv() => if let Ok(Alloc(len, time)) = res {
-    //             debug!("start to alloc {}", len);
-    //             match memory.alloc(len) {
-    //                 Ok(start) => {
-    //                     if let Err(e) = task_sender.send(Task(start, len, time)).await {
-    //                         error!("task_sender.send error: {:?}", e);
-    //                     }
-    //                 },
-    //                 Err(e) => {
-    //                     error!("memory.alloc error: {:?}", e);
-    //                 }
-    //             }
-    //         },
-    //     }
-    // }
 }
 
 async fn product_task(sender: Sender<Alloc>) {
@@ -111,10 +109,10 @@ async fn product_task(sender: Sender<Alloc>) {
 
 async fn deal_task(sender: Sender<Free>, recver: Receiver<Task>) {
     loop {
-        if let Ok(Task(start, _, time)) = recver.recv().await {
+        if let Ok(Task(position, start, _, time)) = recver.recv().await {
             tokio::time::sleep(Duration::from_millis(time)).await;
             debug!("{} dealed", start);
-            if let Err(e) = sender.send(Free(start)).await {
+            if let Err(e) = sender.send(Free(position)).await {
                 error!("{:?}", e);
             }
         } else {

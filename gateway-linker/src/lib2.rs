@@ -147,9 +147,9 @@ impl Node {
     fn behind(&self) -> Option<Node> {
         unsafe { (*self.as_ptr()).behind.clone() }
     }
-    fn front(&self) -> Option<Node> {
-        unsafe { (*self.as_ptr()).front.clone() }
-    }
+    // fn front(&self) -> Option<Node> {
+    //     unsafe { (*self.as_ptr()).front.clone() }
+    // }
     fn end(&self) -> usize {
         unsafe { (*self.as_ptr()).end }
     }
@@ -233,7 +233,7 @@ fn test_node_inner() {
         let b_ptr = map.get_mut(&4).unwrap();
         let b_node = Node(NonNull::new_unchecked(b_ptr as *mut NodeInner));
 
-        let c = NodeInner::new(2, 4, Some(a_node), Some(b_node));
+        NodeInner::new(2, 4, Some(a_node), Some(b_node));
     }
 }
 
